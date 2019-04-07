@@ -5,16 +5,12 @@ import javax.swing.*;
 public class Application {
 
     public static void main(String[] args){
-        UI ui = new UI();
-
-        JFrame frame = new JFrame("DB2-Project");
-        frame.setContentPane(ui.getPanelMain());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        // EntryPoint of the app
+        // Start UI here...
 
 
-
-
+        // test
+        Candidate c = new Candidate("nils", "weber", 31, "test");
+        c.create(c);
     }
 }

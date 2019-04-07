@@ -1,35 +1,43 @@
 package db2project;
 
-import javax.swing.*;
 import java.sql.*;
-
 
 public class DBManager {
 
     private Connection myConn;
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/";
+    private static final String DB_NAME = "voting_system";
+    private static final String USER = "root";
+    private static final String PASSWORD = null;
+
 
     DBManager(){
          try {
-            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", null);
+            myConn = DriverManager.getConnection(DB_URL + DB_NAME, USER, PASSWORD);
         } catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public String createQuery(String query){
-        String resultString = "";
-
+    public ResultSet executeQuery(String query){
         try {
             Statement myStmt = this.myConn.createStatement();
-            ResultSet myRs = myStmt.executeQuery("select * from hotel");
-            while(myRs.next()){
-                resultString += myRs.getString("name") + "\n\r";
-            }
+            return myStmt.executeQuery(query);
         }catch (Exception ex ){
             ex.printStackTrace();
         }
 
-        return resultString;
+        return null;
     }
 
+    public int executeUpdate(String query){
+        try {
+            Statement myStmt = this.myConn.createStatement();
+            return myStmt.executeUpdate(query);
+        }catch (Exception ex ){
+            ex.printStackTrace();
+        }
+
+        return 0;
+    }
 }
