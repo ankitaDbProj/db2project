@@ -6,6 +6,7 @@ public class Candidate {
     private int age;
     private DBManager dbManager;
 
+    // Configuration...
     private static final String TABLE = "candidate";
     private static final String COLUMN_FIRSTNAME = "firstname";
     private static final String COLUMN_LASTNAME = "lastname";
@@ -50,7 +51,7 @@ public class Candidate {
         //TODO implement
     }
 
-    public Candidate getByFirstname(String name){
+    public Candidate update(Candidate candidate){
         //TODO implement
     }
 

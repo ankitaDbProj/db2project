@@ -19,6 +19,12 @@ public class DBManager {
         }
     }
 
+    /**
+     * Execute SELECT queries.
+     *
+     * @param query String
+     * @return ResultSet
+     */
     public ResultSet executeQuery(String query){
         try {
             Statement myStmt = this.myConn.createStatement();
@@ -30,6 +36,12 @@ public class DBManager {
         return null;
     }
 
+    /**
+     * Execute INSERT, UPDATE and DELETE queries.
+     *
+     * @param query String
+     * @return int
+     */
     public int executeUpdate(String query){
         try {
             Statement myStmt = this.myConn.createStatement();
