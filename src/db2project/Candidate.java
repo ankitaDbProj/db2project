@@ -1,5 +1,9 @@
 package db2project;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class Candidate {
 
     private String firstname, lastname, picture;
@@ -30,8 +34,8 @@ public class Candidate {
     }
 
     public boolean create(Candidate candidate){
-        String query = "INSERT INTO " + this.TABLE + " ("
-                + this.COLUMN_FIRSTNAME + "," + this.COLUMN_LASTNAME + "," + this.COLUMN_AGE + "," + this.COLUMN_PICTURE + ") " +
+        String query = "INSERT INTO " + TABLE + " ("
+                + COLUMN_FIRSTNAME + "," + COLUMN_LASTNAME + "," + COLUMN_AGE + "," + COLUMN_PICTURE + ") " +
                 "VALUES ('" + candidate.getFirstname()+"','"+ candidate.getLastname() + "'," +
                 candidate.getAge() + ",'" + candidate.getPicture()+"');";
         this.dbManager.executeUpdate(query);
@@ -39,21 +43,34 @@ public class Candidate {
         return true;
     }
 
-    public Candidate getByFirstname(String name){
-        //TODO implement
+    public ArrayList<Candidate> getAll() throws SQLException {
+        String query = "SELECT * FROM " + TABLE;
+        ResultSet rs = this.dbManager.executeQuery(query);
+        int i = 0;
+
+        ArrayList<Candidate> resCandidates = new ArrayList<>();
+        while(rs.next()){
+            resCandidates.add(
+                new Candidate(
+                    rs.getString(COLUMN_FIRSTNAME),
+                    rs.getString(COLUMN_LASTNAME),
+                    rs.getInt(COLUMN_AGE),
+                    rs.getString(COLUMN_PICTURE)
+                )
+            );
+        }
+
+        return resCandidates;
     }
 
-    public Candidate delete(String name){
-        //TODO implement
+    // public Candidate getByFirstname(String name){ TODO implement }
+
+    public int delete(String name){
+        String query = "DELETE FROM " + TABLE + " WHERE " + COLUMN_FIRSTNAME + " = '" + name + "'";
+        return this.dbManager.executeUpdate(query);
     }
 
-    public Candidate getAll(){
-        //TODO implement
-    }
-
-    public Candidate update(Candidate candidate){
-        //TODO implement
-    }
+    // public Candidate update(Candidate candidate){ TODO implement }
 
 
     public String getFirstname() {
