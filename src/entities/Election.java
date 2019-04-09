@@ -7,13 +7,6 @@ public class Election {
     private Date startDate, resultDate;
     private String topic;
 
-    // Configuration...
-    private static final String TABLE = "election";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_START_DATE = "start_date";
-    private static final String COLUMN_TOPIC = "topic";
-    private static final String COLUMN_RESLUT_DATE = "result_date";
-
     public Election(Date startDate, String topic, Date resultDate) {
         init(startDate, topic, resultDate);
     }

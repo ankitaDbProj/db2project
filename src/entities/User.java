@@ -4,14 +4,6 @@ public class User {
     private int id, gender, role;
     private String name, email;
 
-    // Configuration...
-    private static final String TABLE = "user";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_GENDER = "gender";
-    private static final String COLUMN_EMAIL = "email";
-    private static final String COLUMN_ROLE = "role";
-
     public User(String name, int gender, String email, int role) {
         init(name, gender, email, role);
     }

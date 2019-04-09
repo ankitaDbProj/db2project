@@ -19,17 +19,16 @@ public class CandidateService {
     private static final String COLUMN_ELECTION_ID = "election_id";
     private static final String COLUMN_PARTY_ID = "party_id";
 
-    CandidateService(){
+    public CandidateService(){
         dbManager = new DBManager();
     }
 
-    public boolean create(Candidate candidate){
-        String query = "INSERT INTO " + candidate.TABLE + " ("
+    public int create(Candidate candidate){
+        String query = "INSERT INTO " + TABLE + " ("
                 + COLUMN_NAME + "," + COLUMN_AGE + "," + COLUMN_PICTURE + "," + COLUMN_ELECTION_ID + "," + COLUMN_PARTY_ID + ") " +
-                "VALUES ('" + name +"',"+ age + ",'" + picture + "'," + electionId +"," + partyId + ");";
-        this.dbManager.executeUpdate(query);
-
-        return true;
+                "VALUES ('" + candidate.getName() +"',"+ candidate.getAge() + ",'" + candidate.getPicture() +
+                "'," + candidate.getElectionId() +"," + candidate.getPartyId() + ");";
+        return this.dbManager.executeUpdate(query);
     }
 
     public ArrayList<Candidate> getAll() throws SQLException {
@@ -41,6 +40,7 @@ public class CandidateService {
         while(rs.next()){
             res.add(
                     new Candidate(
+                            rs.getInt(COLUMN_ID),
                             rs.getString(COLUMN_NAME),
                             rs.getInt(COLUMN_AGE),
                             rs.getString(COLUMN_PICTURE),
@@ -71,9 +71,4 @@ public class CandidateService {
         String query = "DELETE FROM " + TABLE + " WHERE " + COLUMN_ID + " = '" + candidateId + "'";
         return this.dbManager.executeUpdate(query);
     }
-
-    // public Candidate update(Candidate candidate){ TODO implement? }
-
-
-
 }

@@ -4,13 +4,6 @@ public class Party {
     private int id;
     private String name, slogan, logo;
 
-    // Configuration...
-    private static final String TABLE = "party";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_SLOGAN = "slogan";
-    private static final String COLUMN_LOGO = "logo";
-
     public Party(String name, String slogan, String logo) {
         init(name, slogan, logo);
     }
