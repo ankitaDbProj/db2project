@@ -5,39 +5,36 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Candidate {
+    private int id, age, electionId, partyId;
+    private String name, picture;
 
-    private String firstname, lastname, picture;
-    private int age;
     private DBManager dbManager;
 
     // Configuration...
     private static final String TABLE = "candidate";
-    private static final String COLUMN_FIRSTNAME = "firstname";
-    private static final String COLUMN_LASTNAME = "lastname";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_NAME = "name";
     private static final String COLUMN_AGE = "age";
     private static final String COLUMN_PICTURE = "picture";
+    private static final String COLUMN_ELECTION_ID = "election_id";
+    private static final String COLUMN_PARTY_ID = "party_id";
 
-    Candidate(String firstname, String lastname, int age, String picture){
-        if(firstname == null || lastname == null || picture == null){
-            throw new IllegalArgumentException();
-        }
-        if(age < 18 || age > 120){
-            throw new IllegalArgumentException("Invalid age: " + age);
-        }
-
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.age = age;
-        this.picture = picture;
-
-        this.dbManager = new DBManager();
+    Candidate(String name, int age, String picture, int electionId, int partyId){
+        init(name, age, picture, electionId, partyId);
     }
 
-    public boolean create(Candidate candidate){
+    Candidate(int id, String name, int age, String picture, int electionId, int partyId){
+        init(name, age, picture, electionId, partyId);
+        this.id = id;
+    }
+
+    Candidate(){
+    }
+
+    public boolean create(){
         String query = "INSERT INTO " + TABLE + " ("
-                + COLUMN_FIRSTNAME + "," + COLUMN_LASTNAME + "," + COLUMN_AGE + "," + COLUMN_PICTURE + ") " +
-                "VALUES ('" + candidate.getFirstname()+"','"+ candidate.getLastname() + "'," +
-                candidate.getAge() + ",'" + candidate.getPicture()+"');";
+                + COLUMN_NAME + "," + COLUMN_AGE + "," + COLUMN_PICTURE + "," + COLUMN_ELECTION_ID + "," + COLUMN_PARTY_ID + ") " +
+                "VALUES ('" + name +"',"+ age + ",'" + picture + "'," + electionId +"," + partyId + ");";
         this.dbManager.executeUpdate(query);
 
         return true;
@@ -48,44 +45,82 @@ public class Candidate {
         ResultSet rs = this.dbManager.executeQuery(query);
         int i = 0;
 
-        ArrayList<Candidate> resCandidates = new ArrayList<>();
+        ArrayList<Candidate> res = new ArrayList<>();
         while(rs.next()){
-            resCandidates.add(
+            res.add(
                 new Candidate(
-                    rs.getString(COLUMN_FIRSTNAME),
-                    rs.getString(COLUMN_LASTNAME),
+                    rs.getString(COLUMN_NAME),
                     rs.getInt(COLUMN_AGE),
-                    rs.getString(COLUMN_PICTURE)
+                    rs.getString(COLUMN_PICTURE),
+                    rs.getInt(COLUMN_ELECTION_ID),
+                    rs.getInt(COLUMN_PARTY_ID)
                 )
             );
         }
 
-        return resCandidates;
+        return res;
     }
 
-    // public Candidate getByFirstname(String name){ TODO implement }
+    public Candidate getById(int candidateId){
+        String query = "SELECT * FROM " + TABLE + " WHERE id = '" + candidateId + "'";
+        ResultSet rs = this.dbManager.executeQuery(query);
 
-    public int delete(String name){
-        String query = "DELETE FROM " + TABLE + " WHERE " + COLUMN_FIRSTNAME + " = '" + name + "'";
+        try {
+            if(rs.next()){
+                return new Candidate(candidateId, rs.getString(COLUMN_NAME), rs.getInt(COLUMN_AGE), rs.getString(COLUMN_PICTURE), rs.getInt(COLUMN_ELECTION_ID), rs.getInt(COLUMN_PARTY_ID));
+            }
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return new Candidate();
+    }
+
+    public int delete(int candidateId){
+        String query = "DELETE FROM " + TABLE + " WHERE " + COLUMN_ID + " = '" + candidateId + "'";
         return this.dbManager.executeUpdate(query);
     }
 
-    // public Candidate update(Candidate candidate){ TODO implement }
+    // public Candidate update(Candidate candidate){ TODO implement? }
 
 
-    public String getFirstname() {
-        return firstname;
+    public int getId() {
+        return id;
     }
 
-    public String getLastname() {
-        return lastname;
+    public int getAge() {
+        return age;
+    }
+
+    public int getElectionId() {
+        return electionId;
+    }
+
+    public int getPartyId() {
+        return partyId;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getPicture() {
         return picture;
     }
 
-    public int getAge() {
-        return age;
+    private void init(String name, int age, String picture, int electionId, int partyId){
+        if(name == null || picture == null){
+            throw new IllegalArgumentException();
+        }
+        if(age < 18 || age > 120){
+            throw new IllegalArgumentException("Invalid age: " + age);
+        }
+
+        this.name = name;
+        this.age = age;
+        this.picture = picture;
+        this.electionId = electionId;
+        this.partyId = partyId;
+
+        this.dbManager = new DBManager();
     }
 }
