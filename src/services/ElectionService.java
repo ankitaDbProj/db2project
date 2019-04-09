@@ -1,14 +1,13 @@
-package db2project;
+package services;
+
+import db2project.DBManager;
+import entities.Election;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
 
-public class Election {
-    private int id;
-    private Date startDate, resultDate;
-    private String topic;
+public class ElectionService {
     private DBManager dbManager;
 
     // Configuration...
@@ -18,39 +17,14 @@ public class Election {
     private static final String COLUMN_TOPIC = "topic";
     private static final String COLUMN_RESLUT_DATE = "result_date";
 
-    public Election(Date startDate, String topic, Date resultDate) {
-        if(startDate == null || topic == null || resultDate == null){
-            throw new IllegalArgumentException();
-        }
-
-        this.startDate = startDate;
-        this.topic = topic;
-        this.resultDate = resultDate;
-
+    public ElectionService() {
         this.dbManager = new DBManager();
     }
 
-    public Election(int id, Date startDate, String topic, Date resultDate) {
-        if(startDate == null || topic == null || resultDate == null){
-            throw new IllegalArgumentException();
-        }
-
-        this.id = id;
-        this.startDate = startDate;
-        this.topic = topic;
-        this.resultDate = resultDate;
-
-        this.dbManager = new DBManager();
-    }
-
-    public Election(){
-
-    }
-
-    public int create(){
+    public int create(Election election){
         String query = "INSERT INTO " + TABLE + " ("
                 + COLUMN_START_DATE + "," + COLUMN_TOPIC + "," + COLUMN_RESLUT_DATE + ") " +
-                "VALUES ('" + startDate +"','"+ topic + "','" + resultDate + "');";
+                "VALUES ('" + election.getStartDate() +"','"+ election.getTopic() + "','" + election.getResultDate() + "');";
         return this.dbManager.executeUpdate(query);
     }
 
@@ -94,22 +68,5 @@ public class Election {
     public int delete(int electionId){
         String query = "DELETE FROM " + TABLE + " WHERE " + COLUMN_ID + " = " + electionId;
         return this.dbManager.executeUpdate(query);
-    }
-
-    //public Party update(Party party, int partyId){
-    // TODO check if implementation is needed
-    //}
-
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public Date getResultDate() {
-        return resultDate;
-    }
-
-    public String getTopic() {
-        return topic;
     }
 }

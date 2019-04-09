@@ -1,14 +1,13 @@
-package db2project;
+package services;
 
-import java.sql.Date;
+import db2project.DBManager;
+import entities.Vote;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Vote {
-    private int id, candidateId, userId;
-    private Date date;
-
+public class VoteService {
     private DBManager dbManager;
 
     // Configuration...
@@ -18,25 +17,15 @@ public class Vote {
     private static final String COLUMN_CANDIDATE_ID = "candidate_id";
     private static final String COLUMN_USER_ID = "user_id";
 
-    Vote(Date date, int candidateId, int userId){
-        init(date, candidateId, userId);
+    public VoteService() {
+        this.dbManager = new DBManager();
     }
 
-    Vote(int id, Date date, int candidateId, int userId){
-        init(date, candidateId, userId);
-        this.id = id;
-    }
-
-    Vote(){
-    }
-
-    public boolean create(){
+    public int create(Vote vote){
         String query = "INSERT INTO " + TABLE + " ("
                 + COLUMN_DATE + "," + COLUMN_CANDIDATE_ID + "," + COLUMN_USER_ID + ") " +
-                "VALUES ('" + date +"',"+ candidateId + "," + userId + ");";
-        this.dbManager.executeUpdate(query);
-
-        return true;
+                "VALUES ('" + vote.getDate() +"',"+ vote.getCandidateId() + "," + vote.getUserId() + ");";
+        return this.dbManager.executeUpdate(query);
     }
 
     public ArrayList<Vote> getAll() throws SQLException {
@@ -47,10 +36,10 @@ public class Vote {
         while(rs.next()){
             res.add(
                 new Vote(
-                        rs.getInt(COLUMN_ID),
-                        rs.getDate(COLUMN_DATE),
-                        rs.getInt(COLUMN_CANDIDATE_ID),
-                        rs.getInt(COLUMN_USER_ID)
+                    rs.getInt(COLUMN_ID),
+                    rs.getDate(COLUMN_DATE),
+                    rs.getInt(COLUMN_CANDIDATE_ID),
+                    rs.getInt(COLUMN_USER_ID)
                 )
             );
         }
@@ -75,32 +64,5 @@ public class Vote {
     public int delete(int voteId){
         String query = "DELETE FROM " + TABLE + " WHERE " + COLUMN_ID + " = '" + voteId + "'";
         return this.dbManager.executeUpdate(query);
-    }
-
-    // public Candidate update(Candidate candidate){ TODO implement? }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public int getCandidateId() {
-        return candidateId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    private void init(Date date, int candidateId, int userId){
-        this.date = date;
-        this.candidateId = candidateId;
-        this.userId = userId;
-
-        this.dbManager = new DBManager();
     }
 }

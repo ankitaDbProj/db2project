@@ -11,7 +11,7 @@ public class DBManager {
     private static final String PASSWORD = null;
 
 
-    DBManager(){
+    public DBManager(){
          try {
             myConn = DriverManager.getConnection(DB_URL + DB_NAME, USER, PASSWORD);
         } catch (Exception ex){

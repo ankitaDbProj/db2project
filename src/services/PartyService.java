@@ -1,13 +1,13 @@
-package db2project;
+package services;
+
+import db2project.DBManager;
+import entities.Party;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Party {
-
-    private int id;
-    private String name, slogan, logo;
+public class PartyService {
     private DBManager dbManager;
 
     // Configuration...
@@ -17,39 +17,14 @@ public class Party {
     private static final String COLUMN_SLOGAN = "slogan";
     private static final String COLUMN_LOGO = "logo";
 
-    public Party(String name, String slogan, String logo) {
-        if(name == null || slogan == null || logo == null){
-            throw new IllegalArgumentException();
-        }
-
-        this.name = name;
-        this.slogan = slogan;
-        this.logo = logo;
-
+    public PartyService() {
         this.dbManager = new DBManager();
     }
 
-    public Party(int id, String name, String slogan, String logo) {
-        if(name == null || slogan == null || logo == null){
-            throw new IllegalArgumentException();
-        }
-
-        this.id = id;
-        this.name = name;
-        this.slogan = slogan;
-        this.logo = logo;
-
-        this.dbManager = new DBManager();
-    }
-
-    public Party(){
-
-    }
-
-    public int create(){
+    public int create(Party party){
         String query = "INSERT INTO " + TABLE + " ("
                 + COLUMN_NAME + "," + COLUMN_SLOGAN + "," + COLUMN_LOGO + ") " +
-                "VALUES ('" + name +"','"+ slogan + "','" + logo + "');";
+                "VALUES ('" + party.getName() +"','"+ party.getSlogan() + "','" + party.getLogo() + "');";
         return this.dbManager.executeUpdate(query);
     }
 
@@ -61,12 +36,12 @@ public class Party {
         try {
             while(rs.next()){
                 res.add(
-                    new Party(
-                            rs.getInt(COLUMN_ID),
-                            rs.getString(COLUMN_NAME),
-                            rs.getString(COLUMN_SLOGAN),
-                            rs.getString(COLUMN_LOGO)
-                    )
+                        new Party(
+                                rs.getInt(COLUMN_ID),
+                                rs.getString(COLUMN_NAME),
+                                rs.getString(COLUMN_SLOGAN),
+                                rs.getString(COLUMN_LOGO)
+                        )
                 );
             }
         } catch (SQLException ex){
@@ -94,21 +69,5 @@ public class Party {
     public int delete(int partyId){
         String query = "DELETE FROM " + TABLE + " WHERE " + COLUMN_ID + " = " + partyId;
         return this.dbManager.executeUpdate(query);
-    }
-
-    //public Party update(Party party, int partyId){
-        // TODO check if implementation is needed
-    //}
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSlogan() {
-        return slogan;
-    }
-
-    public String getLogo() {
-        return logo;
     }
 }
