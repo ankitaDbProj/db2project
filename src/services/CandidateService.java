@@ -91,4 +91,25 @@ public class CandidateService {
 
         return res;
     }
+
+    public ArrayList<Candidate> getAllByElection(int electionId) throws SQLException{
+        String query = "SELECT * FROM " + TABLE + " WHERE " + COLUMN_ELECTION_ID + " = '" + electionId + "'";
+        ResultSet rs = this.dbManager.executeQuery(query);
+
+        ArrayList<Candidate> res = new ArrayList<>();
+        while(rs.next()){
+            res.add(
+                    new Candidate(
+                            rs.getInt(COLUMN_ID),
+                            rs.getString(COLUMN_NAME),
+                            rs.getInt(COLUMN_AGE),
+                            rs.getString(COLUMN_PICTURE),
+                            rs.getInt(COLUMN_ELECTION_ID),
+                            rs.getInt(COLUMN_PARTY_ID)
+                    )
+            );
+        }
+
+        return res;
+    }
 }
