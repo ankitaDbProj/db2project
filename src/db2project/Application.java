@@ -57,6 +57,7 @@ public class Application {
         //ArrayList<Vote> res = vs.getAll();
         //vs.delete(2);
         //ArrayList<Vote> res = vs.getAllByCandidate(3);
+        //ArrayList<Vote> res = vs.getAllByUser(4);
 
         int i = 0;
     }

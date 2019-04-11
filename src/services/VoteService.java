@@ -84,4 +84,23 @@ public class VoteService {
 
         return res;
     }
+
+    public ArrayList<Vote> getAllByUser(int userId) throws SQLException {
+        String query = "SELECT * FROM " + TABLE + " WHERE " + COLUMN_USER_ID + " = '" + userId + "'";
+        ResultSet rs = this.dbManager.executeQuery(query);
+
+        ArrayList<Vote> res = new ArrayList<>();
+        while(rs.next()){
+            res.add(
+                    new Vote(
+                            rs.getInt(COLUMN_ID),
+                            rs.getDate(COLUMN_DATE),
+                            rs.getInt(COLUMN_CANDIDATE_ID),
+                            rs.getInt(COLUMN_USER_ID)
+                    )
+            );
+        }
+
+        return res;
+    }
 }
