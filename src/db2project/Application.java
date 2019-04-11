@@ -3,7 +3,6 @@ package db2project;
 import entities.*;
 import services.*;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
@@ -47,6 +46,8 @@ public class Application {
         //Candidate res = cs.getById(3);
         //ArrayList<Candidate> res = cs.getAll();
         //cs.delete(4);
+        //ArrayList<Candidate> res = cs.getAllByParty(1);
+        //ArrayList<Candidate> res = cs.getAllByElection(1);
 
         // ==== VOTTE =====
         VoteService vs = new VoteService();
@@ -55,6 +56,8 @@ public class Application {
         //Vote res = vs.getById(1);
         //ArrayList<Vote> res = vs.getAll();
         //vs.delete(2);
+        //ArrayList<Vote> res = vs.getAllByCandidate(3);
+        //ArrayList<Vote> res = vs.getAllByUser(4);
 
         int i = 0;
     }
