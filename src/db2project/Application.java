@@ -47,6 +47,7 @@ public class Application {
         //Candidate res = cs.getById(3);
         //ArrayList<Candidate> res = cs.getAll();
         //cs.delete(4);
+        //ArrayList<Candidate> res = cs.getAllByParty(1);
 
         // ==== VOTTE =====
         VoteService vs = new VoteService();

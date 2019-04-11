@@ -34,19 +34,18 @@ public class CandidateService {
     public ArrayList<Candidate> getAll() throws SQLException {
         String query = "SELECT * FROM " + TABLE;
         ResultSet rs = this.dbManager.executeQuery(query);
-        int i = 0;
 
         ArrayList<Candidate> res = new ArrayList<>();
         while(rs.next()){
             res.add(
-                    new Candidate(
-                            rs.getInt(COLUMN_ID),
-                            rs.getString(COLUMN_NAME),
-                            rs.getInt(COLUMN_AGE),
-                            rs.getString(COLUMN_PICTURE),
-                            rs.getInt(COLUMN_ELECTION_ID),
-                            rs.getInt(COLUMN_PARTY_ID)
-                    )
+                new Candidate(
+                    rs.getInt(COLUMN_ID),
+                    rs.getString(COLUMN_NAME),
+                    rs.getInt(COLUMN_AGE),
+                    rs.getString(COLUMN_PICTURE),
+                    rs.getInt(COLUMN_ELECTION_ID),
+                    rs.getInt(COLUMN_PARTY_ID)
+                )
             );
         }
 
@@ -70,5 +69,26 @@ public class CandidateService {
     public int delete(int candidateId){
         String query = "DELETE FROM " + TABLE + " WHERE " + COLUMN_ID + " = '" + candidateId + "'";
         return this.dbManager.executeUpdate(query);
+    }
+
+    public ArrayList<Candidate> getAllByParty(int partyId) throws SQLException {
+        String query = "SELECT * FROM " + TABLE + " WHERE " + COLUMN_PARTY_ID + " = '" + partyId + "'";
+        ResultSet rs = this.dbManager.executeQuery(query);
+
+        ArrayList<Candidate> res = new ArrayList<>();
+        while(rs.next()){
+            res.add(
+                new Candidate(
+                    rs.getInt(COLUMN_ID),
+                    rs.getString(COLUMN_NAME),
+                    rs.getInt(COLUMN_AGE),
+                    rs.getString(COLUMN_PICTURE),
+                    rs.getInt(COLUMN_ELECTION_ID),
+                    rs.getInt(COLUMN_PARTY_ID)
+                    )
+            );
+        }
+
+        return res;
     }
 }
