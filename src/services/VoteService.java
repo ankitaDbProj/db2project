@@ -16,6 +16,7 @@ public class VoteService {
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_CANDIDATE_ID = "candidate_id";
     private static final String COLUMN_USER_ID = "user_id";
+    private static final String COLUMN_ELECTION_ID = "election_id";
 
     public VoteService() {
         this.dbManager = new DBManager();
@@ -23,8 +24,8 @@ public class VoteService {
 
     public int create(Vote vote){
         String query = "INSERT INTO " + TABLE + " ("
-                + COLUMN_DATE + "," + COLUMN_CANDIDATE_ID + "," + COLUMN_USER_ID + ") " +
-                "VALUES ('" + vote.getDate() +"',"+ vote.getCandidateId() + "," + vote.getUserId() + ");";
+                + COLUMN_DATE + "," + COLUMN_CANDIDATE_ID + "," + COLUMN_USER_ID + "," + COLUMN_ELECTION_ID + ") " +
+                "VALUES ('" + vote.getDate() +"',"+ vote.getCandidateId() + "," + vote.getUserId() + "," + vote.getElectionId() + ");";
         return this.dbManager.executeUpdate(query);
     }
 
@@ -39,7 +40,8 @@ public class VoteService {
                     rs.getInt(COLUMN_ID),
                     rs.getDate(COLUMN_DATE),
                     rs.getInt(COLUMN_CANDIDATE_ID),
-                    rs.getInt(COLUMN_USER_ID)
+                    rs.getInt(COLUMN_USER_ID),
+                    rs.getInt(COLUMN_ELECTION_ID)
                 )
             );
         }
@@ -53,7 +55,7 @@ public class VoteService {
 
         try {
             if(rs.next()){
-                return new Vote(voteId, rs.getDate(COLUMN_DATE), rs.getInt(COLUMN_CANDIDATE_ID), rs.getInt(COLUMN_USER_ID));
+                return new Vote(voteId, rs.getDate(COLUMN_DATE), rs.getInt(COLUMN_CANDIDATE_ID), rs.getInt(COLUMN_USER_ID), rs.getInt(COLUMN_ELECTION_ID));
             }
         } catch (SQLException ex){
             ex.printStackTrace();
@@ -77,7 +79,8 @@ public class VoteService {
                     rs.getInt(COLUMN_ID),
                     rs.getDate(COLUMN_DATE),
                     rs.getInt(COLUMN_CANDIDATE_ID),
-                    rs.getInt(COLUMN_USER_ID)
+                    rs.getInt(COLUMN_USER_ID),
+                    rs.getInt(COLUMN_ELECTION_ID)
                 )
             );
         }
@@ -92,12 +95,33 @@ public class VoteService {
         ArrayList<Vote> res = new ArrayList<>();
         while(rs.next()){
             res.add(
-                    new Vote(
-                            rs.getInt(COLUMN_ID),
-                            rs.getDate(COLUMN_DATE),
-                            rs.getInt(COLUMN_CANDIDATE_ID),
-                            rs.getInt(COLUMN_USER_ID)
-                    )
+                new Vote(
+                    rs.getInt(COLUMN_ID),
+                    rs.getDate(COLUMN_DATE),
+                    rs.getInt(COLUMN_CANDIDATE_ID),
+                    rs.getInt(COLUMN_USER_ID),
+                    rs.getInt(COLUMN_ELECTION_ID)
+                )
+            );
+        }
+
+        return res;
+    }
+
+    public ArrayList<Vote> getAllByElection(int electionId) throws SQLException {
+        String query = "SELECT * FROM " + TABLE + " WHERE " + COLUMN_ELECTION_ID + " = '" + electionId + "'";
+        ResultSet rs = this.dbManager.executeQuery(query);
+
+        ArrayList<Vote> res = new ArrayList<>();
+        while(rs.next()){
+            res.add(
+                new Vote(
+                    rs.getInt(COLUMN_ID),
+                    rs.getDate(COLUMN_DATE),
+                    rs.getInt(COLUMN_CANDIDATE_ID),
+                    rs.getInt(COLUMN_USER_ID),
+                    rs.getInt(COLUMN_ELECTION_ID)
+                )
             );
         }
 

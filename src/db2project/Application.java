@@ -19,7 +19,7 @@ public class Application {
         PartyService ps = new PartyService();
         Party party = new Party("pirates", "arrr", "cute image");
         //ps.create(party);
-        //Party res = ps.getById(1);
+        //Party res = ps.getById(3);
         //ArrayList<Party> res = ps.getAll();
         //ps.delete(3);
 
@@ -27,37 +27,38 @@ public class Application {
         ElectionService es = new ElectionService();
         Election election = new Election(new Date(2019, 10, 23), "president election", new Date(2019, 10, 30));
         //es.create(election);
-        //Election res = es.getById(1);
+        //Election res = es.getById(2);
         //ArrayList<Election> res = es.getAll();
-        //es.delete(2);
+        //es.delete(3);
 
         // ==== USER =====
         UserService us = new UserService();
         User user = new User("Bob", 1, "bob@lol.com", 1);
         //us.create(user);
-        //User res = us.getById(4);
+        //User res = us.getById(1);
         //ArrayList<User> res = us.getAll();
-        //us.delete(5);
+        //us.delete(2);
 
         // ==== CANDIDATE =====
         CandidateService cs = new CandidateService();
-        Candidate candidate = new Candidate("Paul", 31, "smily", 1, 1);
+        Candidate candidate = new Candidate("Paul", 31, "smily", 2, 1);
         //cs.create(candidate);
         //Candidate res = cs.getById(3);
         //ArrayList<Candidate> res = cs.getAll();
-        //cs.delete(4);
+        //cs.delete(3);
         //ArrayList<Candidate> res = cs.getAllByParty(1);
-        //ArrayList<Candidate> res = cs.getAllByElection(1);
+        //ArrayList<Candidate> res = cs.getAllByElection(2);
 
         // ==== VOTTE =====
         VoteService vs = new VoteService();
-        Vote vote = new Vote(new Date(2019, 10, 23), 3,4);
+        Vote vote = new Vote(new Date(2019, 10, 23), 2,1, 2);
         //vs.create(vote);
-        //Vote res = vs.getById(1);
+        //Vote res = vs.getById(4);
         //ArrayList<Vote> res = vs.getAll();
-        //vs.delete(2);
-        //ArrayList<Vote> res = vs.getAllByCandidate(3);
-        //ArrayList<Vote> res = vs.getAllByUser(4);
+        //vs.delete(4);
+        //ArrayList<Vote> res = vs.getAllByCandidate(2);
+        //ArrayList<Vote> res = vs.getAllByUser(1);
+        ArrayList<Vote> res = vs.getAllByElection(2);
 
         int i = 0;
     }
