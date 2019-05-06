@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2019 at 11:28 AM
+-- Generation Time: May 06, 2019 at 01:26 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -37,6 +37,13 @@ CREATE TABLE `candidate` (
   `party_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `candidate`
+--
+
+INSERT INTO `candidate` (`id`, `name`, `age`, `picture`, `election_id`, `party_id`) VALUES
+(2, 'Paul', 31, 'smily', 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +56,13 @@ CREATE TABLE `election` (
   `topic` varchar(45) NOT NULL,
   `result_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `election`
+--
+
+INSERT INTO `election` (`id`, `start_date`, `topic`, `result_date`) VALUES
+(2, '3919-11-23', 'president election', '3919-11-30');
 
 -- --------------------------------------------------------
 
@@ -82,7 +96,9 @@ CREATE TABLE `user` (
   `name` varchar(45) NOT NULL,
   `gender` int(11) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `role` int(11) NOT NULL
+  `role` int(11) NOT NULL,
+  `age` int(11) NOT NULL,
+  `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -152,13 +168,13 @@ ALTER TABLE `candidate`
 -- AUTO_INCREMENT for table `election`
 --
 ALTER TABLE `election`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `party`
 --
 ALTER TABLE `party`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`

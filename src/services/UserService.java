@@ -17,6 +17,8 @@ public class UserService {
     private static final String COLUMN_GENDER = "gender";
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_ROLE = "role";
+    private static final String COLUMN_AGE = "age";
+    private static final String COLUMN_PASSWORD = "password";
 
     public UserService() {
         this.dbManager = new DBManager();
@@ -24,8 +26,10 @@ public class UserService {
 
     public int create(User user){
         String query = "INSERT INTO " + TABLE + " ("
-                + COLUMN_NAME + "," + COLUMN_GENDER + "," + COLUMN_EMAIL + "," + COLUMN_ROLE + ") " +
-                "VALUES ('" + user.getName() +"',"+ user.getGender() + ",'" + user.getGender() + "', " + user.getRole() + ");";
+                + COLUMN_NAME + "," + COLUMN_GENDER + "," + COLUMN_EMAIL +
+                "," + COLUMN_ROLE + "," + COLUMN_AGE + "," + COLUMN_PASSWORD + ") " +
+                "VALUES ('" + user.getName() +"',"+ user.getGender() + ",'" + user.getGender() +
+                "', " + user.getRole() + ", " + user.getAge() + ", '" + user.getPassword() + "');";
         return this.dbManager.executeUpdate(query);
     }
 
@@ -42,7 +46,9 @@ public class UserService {
                         rs.getString(COLUMN_NAME),
                         rs.getInt(COLUMN_GENDER),
                         rs.getString(COLUMN_EMAIL),
-                        rs.getInt(COLUMN_ROLE)
+                        rs.getInt(COLUMN_ROLE),
+                        rs.getInt(COLUMN_AGE),
+                        rs.getString(COLUMN_PASSWORD)
                     )
                 );
             }
@@ -59,7 +65,8 @@ public class UserService {
 
         try {
             if(rs.next()){
-                return new User(userId, rs.getString(COLUMN_NAME), rs.getInt(COLUMN_GENDER), rs.getString(COLUMN_EMAIL), rs.getInt(COLUMN_ROLE));
+                return new User(userId, rs.getString(COLUMN_NAME), rs.getInt(COLUMN_GENDER), rs.getString(COLUMN_EMAIL),
+                        rs.getInt(COLUMN_ROLE), rs.getInt(COLUMN_AGE),rs.getString(COLUMN_PASSWORD));
             }
         } catch (SQLException ex){
             ex.printStackTrace();
