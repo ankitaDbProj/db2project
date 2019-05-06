@@ -33,7 +33,7 @@ public class Application {
 
         // ==== USER =====
         UserService us = new UserService();
-        User user = new User("Bob", 1, "bob@lol.com", 1);
+        User user = new User("Bob", 1, "bob@lol.com", 1, 18, "mypassword");
         //us.create(user);
         //User res = us.getById(1);
         //ArrayList<User> res = us.getAll();

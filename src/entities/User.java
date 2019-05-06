@@ -1,22 +1,22 @@
 package entities;
 
 public class User {
-    private int id, gender, role;
-    private String name, email;
+    private int id, gender, role, age;
+    private String name, email, password;
 
-    public User(String name, int gender, String email, int role) {
-        init(name, gender, email, role);
+    public User(String name, int gender, String email, int role, int age, String password) {
+        init(name, gender, email, role, age, password);
     }
 
-    public User(int id, String name, int gender, String email, int role) {
-        init(name, gender, email, role);
+    public User(int id, String name, int gender, String email, int role, int age, String password) {
+        init(name, gender, email, role, age, password);
         this.id = id;
     }
 
     public User(){
     }
 
-    private void init(String name, int gender, String email, int role){
+    private void init(String name, int gender, String email, int role, int age, String password){
         if(name == null || email == null){
             throw new IllegalArgumentException();
         }
@@ -26,11 +26,16 @@ public class User {
         if(role < 1 || role > 3){
             throw new IllegalArgumentException("'Role' has to be between 1-3!");
         }
+        if(age >= 120){
+            throw new IllegalArgumentException("'Age' is invalid!");
+        }
 
         this.name = name;
         this.gender = gender;
         this.email = email;
         this.role = role;
+        this.age = age;
+        this.password = password;
     }
 
     public int getId() {
@@ -53,6 +58,11 @@ public class User {
         return email;
     }
 
+    public int getAge() {
+        return age;
+    }
 
-
+    public String getPassword() {
+        return password;
+    }
 }
